@@ -1,0 +1,8 @@
+pandas
+numpy
+scikit-learn==1.6.1
+streamlit==1.50.0
+joblib
+streamlit-js-eval
+streamlit-autorefresh
+pydeck
