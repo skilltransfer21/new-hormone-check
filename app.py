@@ -1077,18 +1077,18 @@ st.subheader(f"📝 {user_name} さんの今日の記録 / Today's Record")
 col_top1, col_top2 = st.columns(2)
 with col_top1:
     record_date = st.date_input("日付 / Date", today_date())
-    bbt = st.number_input("基礎体温 / Basal Body Temp (°C)", min_value=35.0, max_value=42.0, value=36.5, step=0.01)
+    bbt = st.number_input("基礎体温 / Basal Body Temp (°C)", min_value=35.0, max_value=42.0, value=36.5, step=0.1)
 with col_top2:
     last_period = st.date_input("前回の生理開始日 / Last Menstrual Period", today_date() - datetime.timedelta(days=14))
 
 st.markdown("---")
 st.subheader("🍽️ 食事と運動 / Diet & Exercise")
-meals = st.text_area("今日食べたもの / Meals today", placeholder="例: 朝: トースト, 昼: サラダとパスタ, 夜: 焼き魚定食")
+meals = st.text_area("今日食べたもの / Meals today", placeholder="例: 朝: トースト, 昼: サラダとパスタ, 夜: 焼き魚定食/Pizza")
 exercise_done = st.radio("運動しましたか？ / Did you exercise today?", options=["はい / Yes", "いいえ / No"], index=1, horizontal=True)
 
 exercise_details = ""
 if exercise_done == "はい / Yes":
-    exercise_details = st.text_input("どんな運動をしましたか？ / Exercise Details", placeholder="例: ウォーキング30分")
+    exercise_details = st.text_input("どんな運動をしましたか？ / Exercise Details", placeholder="例: ウォーキング30分/Working")
 
 st.markdown("---")
 col1, col2 = st.columns(2)
@@ -1195,18 +1195,18 @@ if st.session_state["save_requested"]:
                 st_autorefresh(interval=500, key="save_poll")
             elif st.session_state["save_poll_count"] > 20:
                 st.session_state["save_requested"] = False
-                st.error("地域情報が取得できませんでした。ブラウザの許可設定をご確認ください。")
+                st.error("G情報が取得できませんでした。ブラウザの許可設定をご確認ください。")
 
         elif isinstance(loc, dict) and "error" in loc:
             st.session_state["save_requested"] = False
             err = loc.get("error", {})
-            st.error(f"地域情報エラー: {err.get('message')} (code={err.get('code')})")
+            st.error(f"G情報エラー: {err.get('message')} (code={err.get('code')})")
 
         else:
             lat, lon, acc = extract_geo(loc)
             if lat is None or lon is None:
                 st.session_state["save_requested"] = False
-                st.error("地域情報は取得できましたが、緯度経度の取り出しに失敗しました。")
+                st.error("G情報は取得できましたが、緯度経度の取り出しに失敗しました。")
             else:
                 geo_time = now_iso()
                 p = st.session_state.get("pending_save_payload") or {}
